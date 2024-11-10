@@ -1,0 +1,3 @@
+# Vector implementation in C
+
+I was watching [this YouTube video](https://www.youtube.com/watch?v=Hdr64lKQ3e4) in order to try and understand [Dynamic Programming](https://en.wikipedia.org/wiki/Dynamic_programming), when I decided to try and solve the 'minimum coins' problem myself in C. However, I then realized that I wanted to have the equivalent of a Rust `Vec`, but in C. So, I wrote a data structure that can grow in size and can support operations like pushing, popping, inserting, and removing. Of course, my implementation is probably the least performant one you could find, but I'm not into bitwise black magic and shit for performance improvements (at the moment).
