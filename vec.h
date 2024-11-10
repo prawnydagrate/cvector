@@ -12,7 +12,7 @@ typedef struct {
 
 Vec *vec_init(Vec *vec, size_t esize, size_t init_capacity);
 
-Vec *vec_resize(Vec *vec, size_t by);
+Vec *vec_expand(Vec *vec, size_t by);
 
 Vec *vec_push(Vec *vec, void *e);
 
