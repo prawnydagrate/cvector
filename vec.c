@@ -21,6 +21,14 @@ Vec *vec_init(Vec *vec, size_t esize, size_t init_capacity) {
   return vec;
 }
 
+void vec_cleanup(Vec *vec) {
+  free(vec->data);
+  vec->data = NULL;
+  vec->esize = 0;
+  vec->len = 0;
+  vec->capacity = 0;
+}
+
 Vec *vec_expand(Vec *vec, size_t by) {
   void *mem = realloc(vec->data, vec->capacity + by * vec->esize);
   if (mem == NULL)

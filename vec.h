@@ -12,6 +12,8 @@ typedef struct {
 
 Vec *vec_init(Vec *vec, size_t esize, size_t init_capacity);
 
+void vec_cleanup(Vec *vec);
+
 Vec *vec_expand(Vec *vec, size_t by);
 
 Vec *vec_push(Vec *vec, void *e);

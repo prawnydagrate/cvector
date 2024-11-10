@@ -11,4 +11,5 @@ int main() {
   for (size_t i = 0; i < coins.len; i++) {
     printf("%zu\n", *(size_t *)vec_get(&coins, i));
   }
+  vec_cleanup(&coins);
 }
