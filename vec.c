@@ -1,14 +1,6 @@
+#include "vec.h"
 #include <stdlib.h>
 #include <string.h>
-
-const size_t EXPAND_SIZE = 4;
-
-typedef struct {
-  void *data;
-  size_t esize;
-  size_t len;
-  size_t capacity;
-} Vec;
 
 Vec *vec_init(Vec *vec, size_t esize, size_t init_capacity) {
   void *mem = malloc(esize * init_capacity);
@@ -39,9 +31,10 @@ Vec *vec_expand(Vec *vec, size_t by) {
 }
 
 Vec *vec_expand_if_needed(Vec *vec, size_t ecount) {
-  // allow for EXPAND_SIZE extra elements to avoid constant reallocation
   if (vec->len + ecount > vec->capacity &&
-      vec_expand(vec, ecount + EXPAND_SIZE) == NULL)
+      // allow for EXPAND_SIZE extra elements to avoid constant reallocation
+      (vec_expand(vec, ecount + EXPAND_SIZE) == NULL && 
+       vec_expand(vec, ecount) == NULL))
     return NULL;
   return vec;
 }
@@ -73,11 +66,6 @@ Vec *vec_insert(Vec *vec, size_t idx, void *e) {
     return NULL;
   if (idx == vec->len)
     return vec_push_no_expand(vec, e);
-  // shifting elements to the right
-  /* for (size_t i = vec->len - 1; i >= idx; i--) {
-    memmove(vec->data + (i + 1) * vec->esize, vec->data + i * vec->esize,
-            vec->esize);
-  } */
   memmove(vec->data + (idx + 1) * vec->esize, vec->data + idx * vec->esize,
           (vec->len - idx) * vec->esize);
   // inserting the element
@@ -96,11 +84,6 @@ void *vec_remove(Vec *vec, size_t idx) {
   if (e == NULL)
     return NULL;
   memmove(e, vec->data + idx * vec->esize, vec->esize);
-  // shifting elements to the left
-  /* for (size_t i = idx + 1; i < vec->len; i++) {
-    memmove(vec->data + (i - 1) * vec->esize, vec->data + i * vec->esize,
-            vec->esize);
-  } */
   memmove(vec->data + idx * vec->esize, vec->data + (idx + 1) * vec->esize,
           (vec->len - idx - 1) * vec->esize);
   vec->len--;
@@ -119,4 +102,8 @@ Vec *vec_extend(Vec *vec, void *arr, size_t count) {
       return NULL;
   }
   return vec;
+}
+
+void vec_clear(Vec *vec) {
+  vec->len = 0;
 }
